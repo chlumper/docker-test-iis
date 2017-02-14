@@ -1,0 +1,20 @@
+version: '3'
+
+services: 
+    web:
+        build:
+            context: ./iis-docker/nanoserver
+            dockerfile: Dockerfile
+        ports: 
+            - "8090:80"
+    test:
+        build:
+            context: ./iis-tester/
+            dockerfile:  Dockerfile
+        command: powershell -executionpolicy bypass "c:\windows\temp\test.ps1"
+        depends_on: 
+            - "web"
+networks:
+  default:
+    external:
+      name: nat

@@ -1,0 +1,16 @@
+version: '3'
+
+services: 
+    web:
+        image: nanoserver-iis:${TAG}
+        ports: 
+            - "8090:80"
+    test:
+        image: iis-tester:${TAG}
+        command: powershell -executionpolicy bypass "c:\windows\temp\test.ps1"
+        depends_on: 
+            - "web"
+networks:
+  default:
+    external:
+      name: nat
